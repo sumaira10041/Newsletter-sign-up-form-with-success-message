@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <title>Frontend Mentor | Newsletter sign-up form with success message</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body{
+      min-height:100vh;
+      background:hsl(234, 29%, 20%);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .container{
+      height:600px;
+      width:65%;
+      background:white;
+      border-radius:15px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .left-side{
+      margin:50px;
+    }
+    .left-side h1{
+      color:hsl(234, 29%, 20%);
+      font-size:45px;
+      font-family: 'Roboto', sans-serif;
+      font-weight:700;
+    }
+    .left-side p{
+      color:hsl(235, 18%, 26%);
+      font-size:13px;
+      font-family:'Roboto', sans-serif;
+      font-weight:700;
+    }
+    .left-side div span{
+      display:flex;
+    }
+    .left-side div span img{
+      margin-right:10px;
+    }
+    .action{
+      margin-top:30px;
+    }
+    .left-side label{
+      font-size:12px;
+      color:hsl(235, 18%, 26%);
+      font-family:'Roboto', sans-serif;
+      font-weight:700;
+      margin-right:100px;
+    }
+    .left-side error{
+      display:none;
+      color:red;
+    }
+    .left-side input{
+      width:293px;
+      height:24px;
+      border-radius:7px;
+      padding:10px;
+      margin-top:10px;
+      border:2px solid hsl(231, 7%, 60%);
+    }
+    .left-side button{
+      background:hsl(234, 29%, 20%);
+      margin-top:20px;
+      height:49px;
+      width:320px;
+      color:white;
+      border:none;
+      border-radius:7px;
+      font-family:'Roboto', sans-serif;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .left-side button:hover{
+      background:hsl(4, 100%, 67%);
+      box-shadow:0 0 10px hsl(4, 100%, 67%);
+    }
+    .right-side{
+      margin:15px;
+    }
+    .right-side img{
+      height:550px;
+    }
+    .success{
+      height:450px;
+      width:400px;
+      background:white;
+      border-radius:10px;
+      display:none;
+    }
+    .content{
+      margin:45px;
+    }
+    .content h1{
+      color:hsl(234, 29%, 20%);
+      font-size:45px;
+      font-family: 'Roboto', sans-serif;
+      font-weight:700;
+    }
+    .content p{
+      color:hsl(235, 18%, 26%);
+      font-size:13px;
+      font-family:'Roboto', sans-serif;
+      font-weight:700;
+    }
+    .content button{
+      width:300px;
+      height:42px;
+      background:hsl(234, 29%, 20%);
+      color:white;
+      border-radius:7px;
+      font-family:'Roboto', sans-serif;
+      font-weight:700;
+      margin-top:20px;
+      cursor:pointer;
+    }
+    @media screen and (max-width:500px){
+      .container{
+        display:block;
+    }
+    .right-side img{
+      height:400px;
+      width:100%;
+    }
+    .left-side{
+      margin:30px;
+    }
+    .left-side input{
+      width:180px;
+    }
+    .left-side button{
+      width:210px;
+    }
+    .left-side label{
+      margin-right:16px;
+    }
+     .success{
+      width:314px;
+    }
+     .content button{
+      width:240px;
+    }
+  }
+      
+  </style>
+</head>
+<body>
+  <div class="container" id="show">
+    <div class="left-side">
+      <h1>Stay updated!</h1>
+      <p>Join 60,000+ product managers receiving monthly updates on:</p>
+      <div>
+      <span><img src="icon-list.svg"><p>Product discovery and building what matters</p></span>
+      <span><img src="icon-list.svg"><p>Measuring to ensure updates are a success</p></span>
+      <span><img src="icon-list.svg"><p>And much more!</p></span></div>
+      <div class="action">
+      <label for="email">Email address</label><error id="error-message">Valid email required</error><br>
+      <input type="email" name="email" id="email" placeholder="email@company.com">
+      <button id="submit" onclick="validateEmail(event, this.id)">Subscribe to monthly newsletter</button></div>
+    </div>
+    <div class="right-side"><img src="illustration-sign-up-desktop.svg"></div>
+  </div>
+  <div class="success" id="hide">
+    <div class="content">
+      <img src="icon-success.svg">
+      <h1>Thanks for subscribing!</h1>
+      <p id="text"></p>
+  <button id="dismiss-msg" onclick="dismiss()">Dismiss message </button>
+    </div>
+  </div>
+  <script>
+    var show = document.querySelector('#show');
+    var hide = document.querySelector('#hide');
+    var submit = document.getElementById('submit');
+    var email = document.getElementById("email");
+    const errorMessage = document.querySelector("#error-message");
+    var dismissMessage = document.querySelector("#dismiss-msg");
+    function validateEmail(e) {
+    e.preventDefault();
+    var emailValue = email.value;
+
+    if (emailValue.length === 0) {
+        errorMessage.style.display = "block";
+        email.style.border = "1px solid red";
+        email.style.background = "#f7bcbc";
+        email.style.color = "red";
+    }
+
+    if (!emailValue.match(/^[A-Za-z\._\-[0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)) {
+        errorMessage.style.display = "inline";
+        email.style.border = "1px solid red";
+        email.style.background = "#f7bcbc";
+        email.style.color = "red";
+    }
+    else{
+    show.style.display = "none";
+    hide.style.display = "block";
+    var text = document.getElementById('text');
+    text.innerHTML = `A confirmation email has been sent to ${emailValue}. Please open it and click the button inside to confirm your subscription.`;
+    }
+ }
+ function dismiss() {
+    show.style.display = "flex";
+    hide.style.display = "none";
+    }
+  </script>
+</body>
+</html>
